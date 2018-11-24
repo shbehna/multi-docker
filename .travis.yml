@@ -1,0 +1,20 @@
+sudo: required
+services: 
+  - docker
+
+before_install: 
+  - docker build -t shbehna/react-test -f ./client/Dockerfile.dev ./client
+
+script: 
+  - docker run shbehna/react-test npm test -- --coverage
+
+after_success: 
+  - docker build -t shbehna/multi-client ./client
+  - docker build -t shbehna/multi-nginx ./nginx
+  - docker build -t shbehna/multi-server ./server
+  - docker build -t shbehna/multi-worker ./worker
+  - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_ID ---password-stdin
+  - docker push shbehna/multi-client
+  - docker push shbehna/multi-nginx
+  - docker push shbehna/multi-server
+  - docker push shbehna/multi-worker
