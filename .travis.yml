@@ -13,7 +13,7 @@ after_success:
   - docker build -t shbehna/multi-nginx ./nginx
   - docker build -t shbehna/multi-server ./server
   - docker build -t shbehna/multi-worker ./worker
-  - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_ID ---password-stdin
+  - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_ID --password-stdin
   - docker push shbehna/multi-client
   - docker push shbehna/multi-nginx
   - docker push shbehna/multi-server
